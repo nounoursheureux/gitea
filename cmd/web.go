@@ -437,6 +437,8 @@ func runWeb(ctx *cli.Context) {
 	}, reqSignIn, middleware.RepoAssignment(true))
 
 	m.Group("/:username/:reponame", func() {
+                m.Get("/static/", repo.Static)
+                m.Get("/static/*", repo.Static)
 		m.Get("/releases", middleware.RepoRef(), repo.Releases)
 		m.Get("/issues", repo.Issues)
 		m.Get("/issues/:index", repo.ViewIssue)
