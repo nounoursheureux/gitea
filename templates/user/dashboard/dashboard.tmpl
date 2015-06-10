@@ -14,6 +14,7 @@
                 <li class="js-tab-nav" data-tab-target="#dashboard-my-org"><a href="#">{{.i18n.Tr "organization"}}</a></li>
                 {{end}}
                 <li class="js-tab-nav last" data-tab-target="#dashboard-my-mirror"><a href="#">{{.i18n.Tr "mirror"}}</a></li>
+                {{if .CanCreateRepo}}
                 <li class="drop right">
                     <button class="btn btn-green text-bold" id="dashboard-new-repo">
                         <i class="octicon octicon-plus"></i>
@@ -24,6 +25,7 @@
                         <li><a href="{{AppSubUrl}}/org/create"><i class="octicon octicon-organization"></i>{{.i18n.Tr "new_org"}}</a></li>
                     </ul>
                 </li>
+                {{end}}
             </ul>
             <div class="panel" id="dashboard-my-repo">
                 <div class="panel-header">

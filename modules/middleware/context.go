@@ -200,6 +200,7 @@ func Contexter() macaron.Handler {
 			ctx.Data["SignedUser"] = ctx.User
 			ctx.Data["SignedUserName"] = ctx.User.Name
 			ctx.Data["IsAdmin"] = ctx.User.IsAdmin
+                        ctx.Data["CanCreateRepo"] = ctx.User.IsAdmin || !setting.Service.AdminOnlyRepos
 		} else {
 			ctx.Data["SignedUserName"] = ""
 		}

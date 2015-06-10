@@ -23,6 +23,7 @@
                 <a href="{{AppSubUrl}}/admin" title="{{.i18n.Tr "admin_panel"}}"><i class="octicon octicon-circuit-board"></i></a>
             </li>
             {{end}}
+        {{if .CanCreateRepo}}
         <li class="right down">
             <a href="#"><i class="octicon octicon-plus"></i></a>
             <ul class="menu menu-down" id="header-new-repo-menu">
@@ -31,6 +32,7 @@
                 <li><a href="{{AppSubUrl}}/org/create"><i class="octicon octicon-organization"></i>{{.i18n.Tr "new_org"}}</a></li>
             </ul>
         </li>
+        {{end}}
         <li class="right" id="header-nav-user">
             <a href="{{AppSubUrl}}/{{.SignedUser.Name}}" class="text-bold">
                 <img src="{{.SignedUser.AvatarLink}}" alt="user-avatar" class="avatar-30"/>

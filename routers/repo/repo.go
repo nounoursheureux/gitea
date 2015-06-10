@@ -62,6 +62,12 @@ func Create(ctx *middleware.Context) {
 		ctx.Handle(500, "GetOrganizations", err)
 		return
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
+
 	ctx.Data["Orgs"] = ctx.User.Orgs
 
 	ctx.HTML(200, CREATE)
@@ -103,6 +109,11 @@ func CreatePost(ctx *middleware.Context, form auth.CreateRepoForm) {
 			return
 		}
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
 
 	repo, err := models.CreateRepository(ctxUser, form.RepoName, form.Description,
 		form.Gitignore, form.License, form.Private, false, form.AutoInit)
@@ -147,6 +158,12 @@ func Migrate(ctx *middleware.Context) {
 		ctx.Handle(500, "GetOrganizations", err)
 		return
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
+
 	ctx.Data["Orgs"] = ctx.User.Orgs
 
 	ctx.HTML(200, MIGRATE)
@@ -177,6 +194,11 @@ func MigratePost(ctx *middleware.Context, form auth.MigrateRepoForm) {
 		ctx.HTML(200, MIGRATE)
 		return
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
 
 	if ctxUser.IsOrganization() {
 		// Check ownership of organization.
@@ -279,6 +301,12 @@ func Fork(ctx *middleware.Context) {
 		ctx.Handle(500, "GetOrganizations", err)
 		return
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
+
 	ctx.Data["Orgs"] = ctx.User.Orgs
 
 	ctx.HTML(200, FORK)
@@ -319,6 +347,11 @@ func ForkPost(ctx *middleware.Context, form auth.CreateRepoForm) {
 		ctx.HTML(200, CREATE)
 		return
 	}
+
+        if ctx.Data["CanCreateRepo"] == false {
+                ctx.Handle(404, "repo.NotFound", nil)
+                return
+        }
 
 	if ctxUser.IsOrganization() {
 		// Check ownership of organization.

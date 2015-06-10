@@ -354,6 +354,7 @@ var Service struct {
 	EnableReverseProxyAuth         bool
 	EnableReverseProxyAutoRegister bool
 	DisableMinimumKeySizeCheck     bool
+        AdminOnlyRepos                 bool
 }
 
 func newService() {
@@ -367,6 +368,7 @@ func newService() {
 	Service.EnableReverseProxyAuth = sec.Key("ENABLE_REVERSE_PROXY_AUTHENTICATION").MustBool()
 	Service.EnableReverseProxyAutoRegister = sec.Key("ENABLE_REVERSE_PROXY_AUTO_REGISTRATION").MustBool()
 	Service.DisableMinimumKeySizeCheck = sec.Key("DISABLE_MINIMUM_KEY_SIZE_CHECK").MustBool()
+        Service.AdminOnlyRepos = sec.Key("ADMIN_ONLY_REPOS").MustBool()
 }
 
 var logLevels = map[string]string{
