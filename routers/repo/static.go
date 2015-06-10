@@ -5,7 +5,6 @@
 package repo
 
 import (
-    "log"
     "io/ioutil"
     "path"
     "mime"
@@ -25,11 +24,11 @@ func Static(ctx *middleware.Context) {
 func serve(branch string, ctx *middleware.Context) {
     commit, err := ctx.Repo.GitRepo.GetCommitIdOfBranch(branch)
     if err != nil {
-        log.Fatal("Couldn't get commit ID")
+        ctx.Handle(500, "GetCommitIdOfBranch", err);
     }
     tree, err := ctx.Repo.GitRepo.GetTree(commit)
     if err != nil {
-        log.Fatal("Couldn't get tree")
+        ctx.Handle(500, "GetTree", err);
     }
     var filepath string
     if ctx.Params("*") != "" {
@@ -44,11 +43,11 @@ func serve(branch string, ctx *middleware.Context) {
     }
     data, err := blob.Data()
     if err != nil {
-        log.Fatal("Couldn't get the data")
+        ctx.Handle(500, "Data", err);
     }
     content, err := ioutil.ReadAll(data)
     if err != nil {
-        log.Fatal("Couldn't read the data")
+        ctx.Handle(500, "ReadAll", err);
     }
     mediatype := mime.TypeByExtension(path.Ext(blob.Name()))
     ctx.Resp.Header().Set("Content-Type", mediatype)
