@@ -832,6 +832,20 @@ func Comment(ctx *middleware.Context) {
 				}
 			}
 
+                        // Update references.
+                        refs := base.IssueIndexPattern.FindAllString(content, -1)
+                        for _, ref := range refs {
+                                if ref[0] == ' ' {
+                                        ref = ref[2:]
+                                } else {
+                                    ref = ref[1:]
+                                }
+                        }
+                        if err := models.UpdateReferences(ctx.User.Id, refs, issue.Id); err != nil {
+                                send(500, nil, err)
+                                return
+                        }
+
 			log.Trace("%s Comment created: %d", ctx.Req.RequestURI, issue.Id)
 		default:
 			ctx.Handle(404, "issue.Comment", err)

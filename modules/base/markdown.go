@@ -111,7 +111,7 @@ var (
 	MentionPattern     = regexp.MustCompile(`(\s|^)@[0-9a-zA-Z_\.]+`)
 	commitPattern      = regexp.MustCompile(`(\s|^)https?.*commit/[0-9a-zA-Z]+(#+[0-9a-zA-Z-]*)?`)
 	issueFullPattern   = regexp.MustCompile(`(\s|^)https?.*issues/[0-9]+(#+[0-9a-zA-Z-]*)?`)
-	issueIndexPattern  = regexp.MustCompile(`( |^)#[0-9]+\b`)
+	IssueIndexPattern  = regexp.MustCompile(`( |^)#[0-9]+\b`)
 	sha1CurrentPattern = regexp.MustCompile(`\b[0-9a-f]{40}\b`)
 )
 
@@ -160,7 +160,7 @@ func RenderSha1CurrentPattern(rawBytes []byte, urlPrefix string) []byte {
 }
 
 func RenderIssueIndexPattern(rawBytes []byte, urlPrefix string) []byte {
-	ms := issueIndexPattern.FindAll(rawBytes, -1)
+	ms := IssueIndexPattern.FindAll(rawBytes, -1)
 	for _, m := range ms {
 		var space string
 		m2 := m

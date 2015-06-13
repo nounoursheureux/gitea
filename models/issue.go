@@ -940,6 +940,12 @@ func CreateComment(userId, repoId, issueId int64, commitId, line string, cmtType
 			sess.Rollback()
 			return nil, err
 		}
+        case COMMENT_TYPE_ISSUE:
+                rawSql := "UPDATE `issue` SET num_comments = num_comments + 1 WHERE id = ?"
+                if _, err := sess.Exec(rawSql, issueId); err != nil {
+                        sess.Rollback();
+                        return nil, err
+                }
 	}
 
 	return comment, sess.Commit()
@@ -994,6 +1000,29 @@ func (c *Comment) AfterDelete() {
 	if err != nil {
 		log.Info("Could not delete files for comment %d on issue #%d: %s", c.Id, c.IssueId, err)
 	}
+}
+
+func UpdateReferences(userId int64, refs []string, issueId int64) error {
+        issue, err := GetIssueById(issueId)
+        if err != nil {
+                return err
+        }
+        for _, ref := range refs {
+            refNum, err := strconv.ParseInt(ref, 10, 64)
+            if err != nil {
+                    return err
+            }
+            refIssue, err := GetIssueByIndex(issue.RepoId, refNum)
+            if err != nil {
+                    return err
+            }
+            message := "#" + strconv.FormatInt(issue.Index, 10)
+            _, err = CreateComment(userId, issue.RepoId, refIssue.Id, "", "", COMMENT_TYPE_ISSUE, message, nil)
+            if err != nil {
+                return err
+            }
+        }
+        return nil
 }
 
 type Attachment struct {

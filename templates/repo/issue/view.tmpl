@@ -106,6 +106,13 @@
                             <a class="user pull-left" href="{{AppSubUrl}}/{{.Poster.Name}}">{{.Poster.Name}}</a> <span class="label label-danger">Closed</span> this issue <span class="time">{{TimeSince .Created $.Lang}}</span>
                         </div>
                     </div>
+                    {{else if eq .Type 3}}
+                    <div class="issue-child issue-reference issue-reference-issue">
+                      <a class="user pull-left" href="{{AppSubUrl}}/{{.Poster.Name}}"><img class="avatar" src="{{.Poster.AvatarLink}}" alt=""/></a>
+                      <div class="issue-content">
+                        <a class="user pull-left" href="{{AppSubUrl}}/{{.Poster.Name}}">{{.Poster.Name}}</a> <span class="label label-info">Referenced</span> this issue from {{.Content}} <span class="time">{{TimeSince .Created $.Lang}}</span>
+                      </div>
+                    </div>
                     {{else if eq .Type 4}}
                     <div class="issue-child issue-reference issue-reference-commit">
                         <a class="user pull-left" href="{{AppSubUrl}}/{{.Poster.Name}}"><img class="avatar" src="{{.Poster.AvatarLink}}" alt=""/></a>
